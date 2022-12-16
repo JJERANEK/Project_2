@@ -6,12 +6,14 @@ import json
 from bs4 import BeautifulSoup
 import time
 
+##########################################################################################
+### DEFINING FUNCTIONS ###################################################################
 def ticker_details(tkr, key):
     # url to polygon.io data REST API
     url = f'https://api.polygon.io/v3/reference/tickers/{tkr}?apiKey={key}'
     response = requests.get(url)
     json_data = response.json()['results']
-    time.sleep(13)
+    # time.sleep(13)
     return json_data
 
 def create_list(list_of_tickers, key):
@@ -20,6 +22,9 @@ def create_list(list_of_tickers, key):
         detailed_list.append(ticker_details(tkr, key))
         print(f'\nticker #{list_of_tickers.index(tkr)} extracted\n\n')
     return detailed_list
+##########################################################################################
+##########################################################################################
+
 
 ##########################################################################################
 ### WEB SCRAPING FOR LIST OF TICKERS #####################################################
@@ -35,7 +40,11 @@ for row in table.find_all("tr"):
 ##########################################################################################
 ##########################################################################################
 
-tickers = tickers[0:15]
+
+##########################################################################################
+### CALL FUNCTIONS TO CREATE JSON FILE ###################################################
 ticker_data = create_list(tickers, polygon_key)
-with open("stocks.json", "w") as file:
+with open("ticker_categories.json", "w") as file:
     json.dump(ticker_data , file)
+##########################################################################################
+##########################################################################################
